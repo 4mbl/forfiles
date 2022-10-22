@@ -1,3 +1,4 @@
+import os
 from PIL import Image  # py -m pip install Pillow
 
 
@@ -65,6 +66,23 @@ def scale(image_path, width_multiplier, height_multiplier):
             image.save(image_path)
 
 
+def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
+    """
+    Scales every image in a directory and its sub directories.
+
+    Args:
+        dir_path (str): path of the directory that will be used
+        width_multiplier (int): width of the desired output image in pixels
+        height_multiplier (int): height of the desired output image in pixels
+    """
+    for root, subdirs, files in os.walk(dir_path):
+        for file in files:
+            # print(os.path.join(root, file))
+            print(os.path.join(root, file))
+            scale(os.path.join(root, file),  width_multiplier, height_multiplier)
+
+
 if __name__ == "__main__":
     resize("C:/Users/ambl/Downloads/car.jpg", 1600, 1600)
     scale("C:/Users/ambl/Downloads/car.jpg", 10, 10)
+    scale_dir("C:/Users/ambl/Downloads/cats", 2, 2)
