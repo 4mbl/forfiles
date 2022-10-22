@@ -50,9 +50,9 @@ def scale(image_path: str, width_multiplier: float, height_multiplier: float):
         void
     """
 
-    supported_file_types = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp")
+    SUPPORTED_FILE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp")
 
-    if image_path.endswith(supported_file_types):
+    if image_path.endswith(SUPPORTED_FILE_TYPES):
         with Image.open(image_path) as image:
             image_width, image_height = image.size
 
