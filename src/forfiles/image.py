@@ -60,7 +60,7 @@ def scale(image_path, width_multiplier, height_multiplier):
 
             image = image.resize(
                 (image_width * width_multiplier, image_height * height_multiplier),
-                resample=Image.NEAREST,
+                resample=Image.Resampling.NEAREST,
             )
 
             image.save(image_path)
@@ -97,7 +97,7 @@ def resize_dir(dir_path: str, image_width: int, image_height: int):
 
 
 if __name__ == "__main__":
-    resize("C:/Users/ambl/Downloads/car.jpg", 1600, 1600)
-    scale("C:/Users/ambl/Downloads/car.jpg", 10, 10)
-    scale_dir("C:/Users/ambl/Downloads/cats", 2, 2)
-    resize_dir("C:/Users/ambl/Downloads/giraffes", 44, 66)
+    resize("C:/Users/User1/Downloads/car.jpg", 1600, 1600)
+    scale("C:/Users/User1/Downloads/car.jpg", 10, 10)
+    scale_dir("C:/Users/User1/Downloads/cats", 2, 2)
+    resize_dir("C:/Users/User1/Downloads/giraffes", 44, 66)
