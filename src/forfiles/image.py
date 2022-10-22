@@ -1,5 +1,5 @@
 import os
-from PIL import Image  # py -m pip install Pillow
+from PIL import Image
 
 
 def resize(image_path: str, image_width: int, image_height: int):
@@ -29,8 +29,6 @@ def resize(image_path: str, image_width: int, image_height: int):
 
     if image_path.endswith(supported_file_types):
         with Image.open(image_path) as image:
-            # image_width, image_height = image.size
-
             image = image.resize(
                 (image_width, image_height),
                 resample=Image.NEAREST,
@@ -75,6 +73,7 @@ def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
         width_multiplier (int): width of all images is multiplied by this
         height_multiplier (int): height of all images is multiplied by this
     """
+
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
             print(os.path.join(root, file).replace("\\", "/"))
@@ -90,6 +89,7 @@ def resize_dir(dir_path: str, image_width: int, image_height: int):
         width_multiplier (int): width of the desired output image in pixels
         height_multiplier (int): height of the desired output image in pixels
     """
+
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
             print(os.path.join(root, file).replace("\\", "/"))
