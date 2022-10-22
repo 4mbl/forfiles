@@ -77,7 +77,7 @@ def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
     """
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
-            print(os.path.join(root, file))
+            print(os.path.join(root, file).replace("\\", "/"))
             scale(os.path.join(root, file),  width_multiplier, height_multiplier)
 
 
@@ -92,7 +92,7 @@ def resize_dir(dir_path: str, image_width: int, image_height: int):
     """
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
-            print(os.path.join(root, file))
+            print(os.path.join(root, file).replace("\\", "/"))
             resize(os.path.join(root, file),  image_width, image_height)
 
 
