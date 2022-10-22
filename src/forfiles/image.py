@@ -72,17 +72,32 @@ def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
 
     Args:
         dir_path (str): path of the directory that will be used
+        width_multiplier (int): width of all images is multiplied by this
+        height_multiplier (int): height of all images is multiplied by this
+    """
+    for root, subdirs, files in os.walk(dir_path):
+        for file in files:
+            print(os.path.join(root, file))
+            scale(os.path.join(root, file),  width_multiplier, height_multiplier)
+
+
+def resize_dir(dir_path: str, image_width: int, image_height: int):
+    """
+    Resizes every image in a directory and its sub directories.
+
+    Args:
+        dir_path (str): path of the directory that will be used
         width_multiplier (int): width of the desired output image in pixels
         height_multiplier (int): height of the desired output image in pixels
     """
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
-            # print(os.path.join(root, file))
             print(os.path.join(root, file))
-            scale(os.path.join(root, file),  width_multiplier, height_multiplier)
+            resize(os.path.join(root, file),  image_width, image_height)
 
 
 if __name__ == "__main__":
     resize("C:/Users/ambl/Downloads/car.jpg", 1600, 1600)
     scale("C:/Users/ambl/Downloads/car.jpg", 10, 10)
     scale_dir("C:/Users/ambl/Downloads/cats", 2, 2)
+    resize_dir("C:/Users/ambl/Downloads/giraffes", 44, 66)
