@@ -64,7 +64,7 @@ def scale(image_path, width_multiplier, height_multiplier):
             image.save(image_path)
 
 
-def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
+def dir_scale(dir_path: str, width_multiplier: int, height_multiplier: int):
     """
     Scales every image in a directory and its sub directories.
 
@@ -80,7 +80,7 @@ def scale_dir(dir_path: str, width_multiplier: int, height_multiplier: int):
             scale(os.path.join(root, file),  width_multiplier, height_multiplier)
 
 
-def resize_dir(dir_path: str, image_width: int, image_height: int):
+def dir_resize(dir_path: str, image_width: int, image_height: int):
     """
     Resizes every image in a directory and its sub directories.
 
@@ -99,5 +99,5 @@ def resize_dir(dir_path: str, image_width: int, image_height: int):
 if __name__ == "__main__":
     resize("C:/Users/User1/Downloads/car.jpg", 1600, 1600)
     scale("C:/Users/User1/Downloads/car.jpg", 10, 10)
-    scale_dir("C:/Users/User1/Downloads/cats", 2, 2)
-    resize_dir("C:/Users/User1/Downloads/giraffes", 44, 66)
+    dir_scale("C:/Users/User1/Downloads/cats", 2, 2)
+    dir_resize("C:/Users/User1/Downloads/giraffes", 44, 66)

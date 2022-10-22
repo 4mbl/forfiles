@@ -27,6 +27,6 @@ image.scale("C:/Users/example/Downloads/boat.png", 1, 1.5)
 image.resize("C:/Users/example/Downloads/car.jpg", 1000, 1000)
 
 # image tools for directories
-image.scale_dir("C:/Users/example/Downloads/cats", 2, 2)
-image.resize_dir("C:/Users/example/Downloads/giraffes", 1000, 1000)
+image.dir_scale("C:/Users/example/Downloads/cats", 2, 2)
+image.dir_resize("C:/Users/example/Downloads/giraffes", 1000, 1000)
 ```
