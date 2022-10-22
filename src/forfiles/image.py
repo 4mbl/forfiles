@@ -37,7 +37,7 @@ def resize(image_path: str, image_width: int, image_height: int):
             image.save(image_path)
 
 
-def scale(image_path, width_multiplier, height_multiplier):
+def scale(image_path: str, width_multiplier: float, height_multiplier: float):
     """
     Scales image with the given multiplier(s)
 
@@ -57,14 +57,14 @@ def scale(image_path, width_multiplier, height_multiplier):
             image_width, image_height = image.size
 
             image = image.resize(
-                (image_width * width_multiplier, image_height * height_multiplier),
+                (int(image_width * width_multiplier), int(image_height * height_multiplier)),
                 resample=Image.Resampling.NEAREST,
             )
 
             image.save(image_path)
 
 
-def dir_scale(dir_path: str, width_multiplier: int, height_multiplier: int):
+def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
     """
     Scales every image in a directory and its sub directories.
 
@@ -97,7 +97,9 @@ def dir_resize(dir_path: str, image_width: int, image_height: int):
 
 
 if __name__ == "__main__":
-    resize("C:/Users/User1/Downloads/car.jpg", 1600, 1600)
-    scale("C:/Users/User1/Downloads/car.jpg", 10, 10)
-    dir_scale("C:/Users/User1/Downloads/cats", 2, 2)
-    dir_resize("C:/Users/User1/Downloads/giraffes", 44, 66)
+    home_dir = os.path.expanduser('~')
+
+    resize(f"{home_dir}/Downloads/car.jpg", 1600, 1600)
+    scale(f"{home_dir}/Downloads/apple.png", 2.5, 3.3)
+    dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
+    dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
