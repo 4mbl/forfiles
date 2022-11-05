@@ -5,7 +5,7 @@ def filter(directory: str, file_types: list, blacklist_mode: bool = False):
     """
     Filters files in a directory based on their file type
 
-    Parameters:
+    Args:
         directory (string): full path to the directory where the files will be filtered
         desired_file_types (list): file type extensions that will be kept, for example: [".png", ".txt"]
         blacklist_mode (bool): by default the listed file types are kept, if this is set to true, the listed file types will be removed and other remaining files will be kept
