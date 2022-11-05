@@ -68,7 +68,7 @@ def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
     """
     Scales every image in a directory and its sub directories.
 
-    Args:
+    Parameters:
         dir_path (str): path of the directory that will be used
         width_multiplier (int): width of all images is multiplied by this
         height_multiplier (int): height of all images is multiplied by this
@@ -84,7 +84,7 @@ def dir_resize(dir_path: str, image_width: int, image_height: int):
     """
     Resizes every image in a directory and its sub directories.
 
-    Args:
+    Parameters:
         dir_path (str): path of the directory that will be used
         width_multiplier (int): width of the desired output image in pixels
         height_multiplier (int): height of the desired output image in pixels
