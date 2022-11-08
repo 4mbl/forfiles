@@ -59,7 +59,8 @@ def scale(image_path: str, width_multiplier: float, height_multiplier: float):
             image_width, image_height = image.size
 
             image = image.resize(
-                (int(image_width * width_multiplier), int(image_height * height_multiplier)),
+                (int(image_width * width_multiplier),
+                 int(image_height * height_multiplier)),
                 resample=Image.Resampling.NEAREST,
             )
 
@@ -79,7 +80,7 @@ def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
             print(os.path.join(root, file).replace("\\", "/"))
-            scale(os.path.join(root, file),  width_multiplier, height_multiplier)
+            scale(os.path.join(root, file), width_multiplier, height_multiplier)
 
 
 def dir_resize(dir_path: str, image_width: int, image_height: int):
@@ -95,7 +96,7 @@ def dir_resize(dir_path: str, image_width: int, image_height: int):
     for root, subdirs, files in os.walk(dir_path):
         for file in files:
             print(os.path.join(root, file).replace("\\", "/"))
-            resize(os.path.join(root, file),  image_width, image_height)
+            resize(os.path.join(root, file), image_width, image_height)
 
 
 def to_png(path: str):
@@ -105,8 +106,10 @@ def to_png(path: str):
         image_path (str): path of the layered image to convert
     """
 
-    LAYERED_IMAGE_TYPES = (".ora", ".pdn", ".xcf", ".psd", ".tiff", ".tif", ".webp", ".gif", ".lsr")
-    IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe", ".jfif", ".jif")
+    LAYERED_IMAGE_TYPES = (".ora", ".pdn", ".xcf", ".psd", ".tiff", ".tif",
+                           ".webp", ".gif", ".lsr")
+    IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe",
+                   ".jfif", ".jif")
 
     filename = os.path.splitext(path)[0]
 
@@ -123,9 +126,9 @@ def to_png(path: str):
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
-    # resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
-    # scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
-    # dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
-    # dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
-    # to_png(f"{home_dir}/Downloads/parrot.xcf")
+    resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
+    scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
+    dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
+    dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
+    to_png(f"{home_dir}/Downloads/parrot.xcf")
     to_png(f"{home_dir}/Downloads/chicken.jpg")
