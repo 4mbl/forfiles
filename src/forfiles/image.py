@@ -98,21 +98,34 @@ def dir_resize(dir_path: str, image_width: int, image_height: int):
             resize(os.path.join(root, file),  image_width, image_height)
 
 
-def to_png(layered_image_path: str):
-    """Converts a layered image file into a PNG file. Supports the following formats: ORA, PDN, XCF, PSD, TIFF/TIF, WEBP, GIF, LSR.
+def to_png(path: str):
+    """Converts normal image or layered image file into PNG.
 
     Args:
         image_path (str): path of the layered image to convert
     """
-    img = layered_image.openLayerImage(layered_image_path)
-    img.getFlattenLayers().save(f"{layered_image_path}.png")
+
+    LAYERED_IMAGE_TYPES = (".ora", ".pdn", ".xcf", ".psd", ".tiff", ".tif", ".webp", ".gif", ".lsr")
+    IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe", ".jfif", ".jif")
+
+    filename = os.path.splitext(path)[0]
+
+    if (path.endswith(LAYERED_IMAGE_TYPES)):
+        image = layered_image.openLayerImage(path)
+        image.getFlattenLayers().save(f"{filename}.png")
+    if (path.endswith(IMAGE_TYPES)):
+        image = Image.open(path)
+        image.save(f"{filename}.png")
+
+    os.remove(path)
 
 
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
-    resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
-    scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
-    dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
-    dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
-    to_png(f"{home_dir}/Downloads/parrot.xcf")
+    # resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
+    # scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
+    # dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
+    # dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
+    # to_png(f"{home_dir}/Downloads/parrot.xcf")
+    to_png(f"{home_dir}/Downloads/chicken.jpg")
