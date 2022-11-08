@@ -1,5 +1,7 @@
 import os
 from PIL import Image
+import layeredimage.io as layered_image
+import os
 
 
 def resize(image_path: str, image_width: int, image_height: int):
@@ -96,10 +98,21 @@ def dir_resize(dir_path: str, image_width: int, image_height: int):
             resize(os.path.join(root, file),  image_width, image_height)
 
 
+def to_png(layered_image_path: str):
+    """Converts a layered image file into a PNG file. Supports the following formats: ORA, PDN, XCF, PSD, TIFF/TIF, WEBP, GIF, LSR.
+
+    Args:
+        image_path (str): path of the layered image to convert
+    """
+    img = layered_image.openLayerImage(layered_image_path)
+    img.getFlattenLayers().save(f"{layered_image_path}.png")
+
+
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
-    resize(f"{home_dir}/Downloads/car.jpg", 1600, 1600)
-    scale(f"{home_dir}/Downloads/apple.png", 2.5, 3.3)
+    resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
+    scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
     dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
     dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
+    to_png(f"{home_dir}/Downloads/parrot.xcf")
