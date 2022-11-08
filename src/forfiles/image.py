@@ -123,12 +123,29 @@ def to_png(path: str):
     os.remove(path)
 
 
+def dir_to_png(dir_path: str):
+    """
+    Converts every image or layered image file in a directory and its sub directories into PNG.
+
+    Args:
+        dir_path (str): path of the directory that will be used
+    """
+
+    for root, subdirs, files in os.walk(dir_path):
+        for file in files:
+            print(os.path.join(root, file).replace("\\", "/"))
+            to_png(os.path.join(root, file))
+
+
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
     resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
+    dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
+
     scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
     dir_scale(f"{home_dir}/Downloads/cats", 2, 2)
-    dir_resize(f"{home_dir}/Downloads/giraffes", 44, 66)
+
     to_png(f"{home_dir}/Downloads/parrot.xcf")
     to_png(f"{home_dir}/Downloads/chicken.jpg")
+    dir_to_png(f"{home_dir}/Downloads/koalas")
