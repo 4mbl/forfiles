@@ -1,4 +1,5 @@
 import os
+from shutil import copytree, rmtree
 
 
 def filter(directory: str, file_types: list, blacklist_mode: bool = False):
@@ -27,5 +28,27 @@ def filter(directory: str, file_types: list, blacklist_mode: bool = False):
                 os.remove(f"{os.path.abspath(subdir)}/{file}")
 
 
+def dir_create(dir_path: str):
+    """Creates directory is it does not exist previously
+
+    Args:
+        dir_path (str): path of the directory that will be created
+    """
+    if not os.path.isdir(dir_path):
+        os.mkdir(dir_path)
+
+
+def dir_delete(dir_path: str):
+    """Deletes directory and its contents if it exists.
+
+    Args:
+        dir_path (string): path of the directory that will be deleted
+    """
+    if os.path.isdir(dir_path):
+        rmtree(dir_path)
+
+
 if __name__ == "__main__":
-    filter("C:/Users/ambl/Downloads/filter_test/", [".png", ".txt", "md"])
+    home_dir = os.path.expanduser('~')
+
+    filter(f"{home_dir}/filter-test", [".png", ".txt", "md"])
