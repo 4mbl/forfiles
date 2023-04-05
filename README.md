@@ -20,7 +20,7 @@ pip install -r requirements.txt
 from forfiles import file, image
 
 # file tools
-file.filter("C:/Users/example/Downloads/directory-to-filter/", [".png", ".txt", "md"])
+file.filter_type("C:/Users/example/Downloads/directory-to-filter/", [".png", ".txt", "md"])
 
 # image tools
 image.scale("C:/Users/example/Downloads/boat.png", 1, 1.5)
