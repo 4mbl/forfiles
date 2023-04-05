@@ -2,7 +2,7 @@ import os
 from shutil import copytree, rmtree
 
 
-def filter(directory: str, file_types: list, blacklist_mode: bool = False):
+def type_filter(directory: str, file_types: list, blacklist_mode: bool = False):
     """
     Filters files in a directory based on their file type
 
@@ -19,7 +19,7 @@ def filter(directory: str, file_types: list, blacklist_mode: bool = False):
         if not file_type.startswith("."):
             file_type = f".{file_type}"
 
-    for subdir, dirs, files in os.walk(directory):
+    for subdir, _, files in os.walk(directory):
 
         for file in files:
             if blacklist_mode and file.endswith(tuple(file_types)):
@@ -51,4 +51,4 @@ def dir_delete(dir_path: str):
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
-    filter(f"{home_dir}/filter-test", [".png", ".txt", "md"])
+    type_filter(f"{home_dir}/filter-test", [".png", ".txt", "md"])
