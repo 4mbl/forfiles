@@ -2,7 +2,7 @@ import os
 from shutil import copytree, rmtree
 
 
-def type_filter(directory: str, file_types: list, blacklist_mode: bool = False):
+def filter_type(directory: str, file_types: list, blacklist_mode: bool = False):
     """
     Filters files in a directory based on their file type
 
@@ -51,4 +51,4 @@ def dir_delete(dir_path: str):
 if __name__ == "__main__":
     home_dir = os.path.expanduser('~')
 
-    type_filter(f"{home_dir}/filter-test", [".png", ".txt", "md"])
+    filter_type(f"{home_dir}/filter-test", [".png", ".txt", "md"])
