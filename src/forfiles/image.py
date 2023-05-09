@@ -2,6 +2,7 @@ import os
 from typing_extensions import deprecated
 from PIL import Image
 import layeredimage.io as layered_image
+from directory import dir_action
 
 IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe",
                ".jfif", ".jif")
@@ -35,10 +36,7 @@ def resize(path: str, image_width: int, image_height: int):
         resize_single(path)
 
     if os.path.isdir(path):
-        for root, _, files in os.walk(path):
-            for file in files:
-                print(os.path.join(root, file).replace("\\", "/"))
-                resize_single(path)
+        dir_action(path, True, resize_single)
 
 
 def scale(path: str, width_multiplier: float, height_multiplier: float):
@@ -70,10 +68,7 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
         scale_single(path)
 
     if os.path.isdir(path):
-        for root, _, files in os.walk(path):
-            for file in files:
-                print(os.path.join(root, file).replace("\\", "/"))
-                scale_single(path)
+        dir_action(path, True, scale_single)
 
 
 @deprecated
@@ -127,16 +122,13 @@ def to_png(path: str):
         elif path.endswith(IMAGE_TYPES):
             image = Image.open(path)
             image.save(f"{filename}.png")
-        os.remove(path)
+            os.remove(path)
 
     if os.path.isfile(path):
         to_png_single(path)
 
     if os.path.isdir(path):
-        for root, _, files in os.walk(path):
-            for file in files:
-                print(os.path.join(root, file).replace("\\", "/"))
-                to_png_single(path)
+        dir_action(path, True, to_png_single)
 
 
 @deprecated
