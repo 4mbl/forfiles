@@ -118,6 +118,8 @@ def to_png(path: str):
     """
 
     def to_png_single(path):
+        if path.endswith(".png"):
+            return
         filename = os.path.splitext(path)[0]
         if path.endswith(LAYERED_IMAGE_TYPES):
             image = layered_image.openLayerImage(path)
