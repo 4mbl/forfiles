@@ -19,4 +19,4 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/4MBL/forfiles"
+"Homepage" = "https://github.com/4mbl/forfiles"
