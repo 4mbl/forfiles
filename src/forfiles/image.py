@@ -1,8 +1,8 @@
 import os
 from typing_extensions import deprecated
 from PIL import Image
-import layeredimage.io as layered_image
-from directory import dir_action
+import layeredimage as layered_image  # type: ignore
+from .directory import dir_action
 
 IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe",
                ".jfif", ".jif")
@@ -28,7 +28,7 @@ def resize(path: str, image_width: int, image_height: int):
             with Image.open(path) as image:
                 image = image.resize(
                     (image_width, image_height),
-                    resample=Image.NEAREST,
+                    resample=Image.Resampling.NEAREST,
                 )
                 image.save(path)
 
@@ -71,7 +71,7 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
         dir_action(path, True, scale_single)
 
 
-@deprecated
+@deprecated("Use `directory.dir_action` instead")
 def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
     """
     Scales every image in a directory and its sub directories.
@@ -88,7 +88,7 @@ def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
             scale(os.path.join(root, file), width_multiplier, height_multiplier)
 
 
-@deprecated
+@deprecated("Use `directory.dir_action` instead")
 def dir_resize(dir_path: str, image_width: int, image_height: int):
     """
     Resizes every image in a directory and its sub directories.
@@ -131,7 +131,7 @@ def to_png(path: str):
         dir_action(path, True, to_png_single)
 
 
-@deprecated
+@deprecated("Use `directory.dir_action` instead")
 def dir_to_png(dir_path: str):
     """
     Converts every image or layered image file in a directory and its sub directories into PNG.

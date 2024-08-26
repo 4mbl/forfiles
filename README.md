@@ -10,23 +10,23 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install forfile
 pip install --upgrade forfiles
 ```
 
-Also install dependencies.
-```bash
-pip install -r requirements.txt
-```
-
 ## Usage
+
 ```python
 from forfiles import file, image
 
 # file tools
 file.filter_type("C:/Users/example/Downloads/directory-to-filter/", [".png", ".txt", "md"])
+file.dir_create("C:/Users/example/Downloads/directory-to-create/")
+file.dir_delete("C:/Users/example/Downloads/directory-to-delete/")
 
 # image tools
 image.scale("C:/Users/example/Downloads/boat.png", 1, 1.5)
 image.resize("C:/Users/example/Downloads/car.jpg", 1000, 1000)
+image.to_png("C:/Users/example/Downloads/plane.jpg")
 
-# image tools for directories
-image.dir_scale("C:/Users/example/Downloads/cats", 2, 2)
-image.dir_resize("C:/Users/example/Downloads/giraffes", 1000, 1000)
+# you can also operate whole directories
+dir_action("C:/Users/example/Downloads/cats/", True, image.scale, 2, 2)
+dir_action("C:/Users/example/Downloads/giraffes/", True, image.resize, 1000, 1000)
+dir_action("C:/Users/example/Downloads/tortoises/", True, image.to_png)
 ```

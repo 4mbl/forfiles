@@ -1,5 +1,5 @@
 import os
-from shutil import copytree, rmtree
+from shutil import rmtree
 
 
 def filter_type(directory: str, file_types: list, blacklist_mode: bool = False):
