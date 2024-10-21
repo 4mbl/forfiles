@@ -16,7 +16,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pillow==10.4.0",
+    "pillow==11.0.0",
     "layeredimage==2024.3",
     "typing_extensions==4.12.2",
 ]
