@@ -1,11 +1,19 @@
 import os
-from typing_extensions import deprecated
 from PIL import Image
 import layeredimage as layered_image  # type: ignore
 from .directory import dir_action
 
-IMAGE_TYPES = (".png", ".jpg", ".gif", ".webp", ".tiff", ".bmp", ".jpe",
-               ".jfif", ".jif")
+IMAGE_TYPES = (
+    ".png",
+    ".jpg",
+    ".gif",
+    ".webp",
+    ".tiff",
+    ".bmp",
+    ".jpe",
+    ".jfif",
+    ".jif",
+)
 
 LAYERED_IMAGE_TYPES = (".ora", ".pdn", ".xcf", ".psd")
 
@@ -58,8 +66,10 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
                 image_width, image_height = image.size
 
                 image = image.resize(
-                    (int(image_width * width_multiplier),
-                     int(image_height * height_multiplier)),
+                    (
+                        int(image_width * width_multiplier),
+                        int(image_height * height_multiplier),
+                    ),
                     resample=Image.Resampling.NEAREST,
                 )
                 image.save(path)
@@ -69,40 +79,6 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
 
     if os.path.isdir(path):
         dir_action(path, True, scale_single)
-
-
-@deprecated("Use `directory.dir_action` instead")
-def dir_scale(dir_path: str, width_multiplier: float, height_multiplier: float):
-    """
-    Scales every image in a directory and its sub directories.
-
-    Args:
-        dir_path (str): path of the directory that will be used
-        width_multiplier (int): width of all images is multiplied by this
-        height_multiplier (int): height of all images is multiplied by this
-    """
-
-    for root, _, files in os.walk(dir_path):
-        for file in files:
-            print(os.path.join(root, file).replace("\\", "/"))
-            scale(os.path.join(root, file), width_multiplier, height_multiplier)
-
-
-@deprecated("Use `directory.dir_action` instead")
-def dir_resize(dir_path: str, image_width: int, image_height: int):
-    """
-    Resizes every image in a directory and its sub directories.
-
-    Args:
-        dir_path (str): path of the directory that will be used
-        width_multiplier (int): width of the desired output image in pixels
-        height_multiplier (int): height of the desired output image in pixels
-    """
-
-    for root, _, files in os.walk(dir_path):
-        for file in files:
-            print(os.path.join(root, file).replace("\\", "/"))
-            resize(os.path.join(root, file), image_width, image_height)
 
 
 def to_png(path: str):
@@ -131,23 +107,8 @@ def to_png(path: str):
         dir_action(path, True, to_png_single)
 
 
-@deprecated("Use `directory.dir_action` instead")
-def dir_to_png(dir_path: str):
-    """
-    Converts every image or layered image file in a directory and its sub directories into PNG.
-
-    Args:
-        dir_path (str): path of the directory that will be used
-    """
-
-    for root, _, files in os.walk(dir_path):
-        for file in files:
-            print(os.path.join(root, file).replace("\\", "/"))
-            to_png(os.path.join(root, file))
-
-
 if __name__ == "__main__":
-    home_dir = os.path.expanduser('~')
+    home_dir = os.path.expanduser("~")
 
     resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
     resize(f"{home_dir}/Downloads/giraffes", 44, 66)
