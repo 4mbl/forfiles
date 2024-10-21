@@ -26,7 +26,7 @@ image.resize("C:/Users/example/Downloads/car.jpg", 1000, 1000)
 image.to_png("C:/Users/example/Downloads/plane.jpg")
 
 # you can also operate whole directories
-dir_action("C:/Users/example/Downloads/cats/", True, image.scale, 2, 2)
-dir_action("C:/Users/example/Downloads/giraffes/", True, image.resize, 1000, 1000)
-dir_action("C:/Users/example/Downloads/tortoises/", True, image.to_png)
+dir_action("C:/Users/example/Downloads/cats/", image.scale, 2, 2)
+dir_action("C:/Users/example/Downloads/giraffes/", image.resize, 1000, 1000)
+dir_action("C:/Users/example/Downloads/tortoises/", image.to_png)
 ```

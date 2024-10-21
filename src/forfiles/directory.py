@@ -4,7 +4,6 @@ from typing import Callable
 
 def dir_action(
     path: str,
-    print_paths: bool,
     fn: Callable[..., None],
     *args,
     **kwargs,
@@ -14,9 +13,6 @@ def dir_action(
     Args:
         path (str):
             The path of the directory to iterate through.
-
-        print_paths (bool):
-            Whether or not to print the path of each file to the terminal during iteration.
 
         fn (Callable[..., None]):
             A callback function that will be called with each file as its argument.
@@ -40,7 +36,7 @@ def dir_action(
         ...     with open(file_path, 'r') as file:
         ...         print(file.read())
 
-        >>> dir_action('/path/to/directory', True, print_file_contents)
+        >>> dir_action('/path/to/directory', print_file_contents)
 
         This will print the contents of each file in the directory '/path/to/directory', as well as its path.
     """
@@ -48,6 +44,4 @@ def dir_action(
     for root, _, files in os.walk(path):
         for file_name in files:
             file_path = os.path.join(root, file_name)
-            if print_paths:
-                print(file_path.replace("\\", "/"))
             fn(file_path, *args, **kwargs)

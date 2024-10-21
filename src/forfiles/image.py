@@ -44,7 +44,7 @@ def resize(path: str, image_width: int, image_height: int):
         resize_single(path)
 
     if os.path.isdir(path):
-        dir_action(path, True, resize_single)
+        dir_action(path, resize_single)
 
 
 def scale(path: str, width_multiplier: float, height_multiplier: float):
@@ -78,7 +78,7 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
         scale_single(path)
 
     if os.path.isdir(path):
-        dir_action(path, True, scale_single)
+        dir_action(path, scale_single)
 
 
 def to_png(path: str):
@@ -104,7 +104,7 @@ def to_png(path: str):
         to_png_single(path)
 
     if os.path.isdir(path):
-        dir_action(path, True, to_png_single)
+        dir_action(path, to_png_single)
 
 
 if __name__ == "__main__":
