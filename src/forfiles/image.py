@@ -99,16 +99,3 @@ def to_png(path: str):
 
     if os.path.isdir(path):
         dir_action(path, to_png_single)
-
-
-if __name__ == "__main__":
-    home_dir = os.path.expanduser("~")
-
-    resize(f"{home_dir}/Downloads/goat.jpg", 1600, 1600)
-    resize(f"{home_dir}/Downloads/giraffes", 44, 66)
-
-    scale(f"{home_dir}/Downloads/fox.png", 2.5, 3.3)
-    scale(f"{home_dir}/Downloads/cats", 2, 2)
-
-    to_png(f"{home_dir}/Downloads/chicken.jpg")
-    to_png(f"{home_dir}/Downloads/koalas")
