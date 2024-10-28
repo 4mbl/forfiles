@@ -10,11 +10,29 @@ description = "Useful tools for files"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
+keywords = ["files", "fs", "images", "directories", "utility"]
+
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 dependencies = ["pillow>=11.0.0,<11.1.0"]
 [project.urls]
-"Homepage" = "https://github.com/4mbl/forfiles"
+Home = "https://github.com/4mbl/forfiles"
+Repository = "https://github.com/4mbl/forfiles"
+Documentation = "https://github.com/4mbl/forfiles/blob/main/README.md"
+"Bug Tracker" = "https://github.com/4mbl/forfiles/issues"
