@@ -1,6 +1,5 @@
 import os
 from PIL import Image
-import layeredimage as layered_image  # type: ignore
 from .directory import dir_action
 
 IMAGE_TYPES = (
@@ -14,8 +13,6 @@ IMAGE_TYPES = (
     ".jfif",
     ".jif",
 )
-
-LAYERED_IMAGE_TYPES = (".ora", ".pdn", ".xcf", ".psd")
 
 
 def resize(path: str, image_width: int, image_height: int):
@@ -82,7 +79,7 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
 
 
 def to_png(path: str):
-    """Converts normal image or layered image file into PNG.
+    """Converts an image file into PNG.
 
     Args:
         path (str): path of the layered image to convert or to a directory that contains them
@@ -92,10 +89,7 @@ def to_png(path: str):
         if path.endswith(".png"):
             return
         filename = os.path.splitext(path)[0]
-        if path.endswith(LAYERED_IMAGE_TYPES):
-            image = layered_image.openLayerImage(path)
-            image.getFlattenLayers().save(f"{filename}.png")
-        elif path.endswith(IMAGE_TYPES):
+        if path.endswith(IMAGE_TYPES):
             image = Image.open(path)
             image.save(f"{filename}.png")
             os.remove(path)
