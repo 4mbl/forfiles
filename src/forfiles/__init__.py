@@ -1,12 +1,14 @@
-from .fs import filter_type, dir_create, dir_delete, dir_action
+"""API entry point for the forfiles package."""
+
+from .fs import dir_action, dir_create, dir_delete, filter_type
 from .image import resize, scale, to_png
 
 __all__ = [
-    "filter_type",
-    "dir_create",
-    "dir_delete",
-    "dir_action",
-    "resize",
-    "scale",
-    "to_png",
+    'dir_action',
+    'dir_create',
+    'dir_delete',
+    'filter_type',
+    'resize',
+    'scale',
+    'to_png',
 ]

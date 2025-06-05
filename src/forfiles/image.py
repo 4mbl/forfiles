@@ -1,26 +1,27 @@
-import os
+"""Tools to manipulate images."""
+
 from pathlib import Path
+
 from PIL import Image
 
-from forfiles._internal import StrOrBytesPath, process_path
+from ._internal import StrOrBytesPath, process_path
 from .fs import dir_action
 
 IMAGE_TYPES = (
-    ".png",
-    ".jpg",
-    ".gif",
-    ".webp",
-    ".tiff",
-    ".bmp",
-    ".jpe",
-    ".jfif",
-    ".jif",
+    '.png',
+    '.jpg',
+    '.gif',
+    '.webp',
+    '.tiff',
+    '.bmp',
+    '.jpe',
+    '.jfif',
+    '.jif',
 )
 
 
-def resize(path: StrOrBytesPath, image_width: int, image_height: int):
-    """
-    Resizes an image or all images in a directory
+def resize(path: StrOrBytesPath, image_width: int, image_height: int) -> None:
+    """Resize an image or all images in a directory.
 
     Args:
         path (StrOrBytesPath): path of the image to resize or to a directory that contains them
@@ -29,17 +30,17 @@ def resize(path: StrOrBytesPath, image_width: int, image_height: int):
 
     Returns:
         void
+
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
-    def resize_single(path: Path):
+    def resize_single(path: Path) -> None:
         if path.suffix in IMAGE_TYPES:
             with Image.open(path) as image:
-                image = image.resize(
+                image.resize(
                     (image_width, image_height),
                     resample=Image.Resampling.NEAREST,
-                )
-                image.save(path)
+                ).save(path)
 
     if path.is_file():
         resize_single(path)
@@ -48,9 +49,8 @@ def resize(path: StrOrBytesPath, image_width: int, image_height: int):
         dir_action(path, resize_single)
 
 
-def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: float):
-    """
-    Scales an image or all images in a directory with the given multiplier(s)
+def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: float) -> None:
+    """Scale an image or all images in a directory with the given multipliers.
 
     Args:
         path (StrOrBytesPath): path of the image to scale or to a directory that contains them
@@ -59,21 +59,21 @@ def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: floa
 
     Returns:
         void
+
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
-    def scale_single(path: Path):
+    def scale_single(path: Path) -> None:
         if path.suffix in IMAGE_TYPES:
             with Image.open(path) as image:
                 image_width, image_height = image.size
-                image = image.resize(
+                image.resize(
                     (
                         int(image_width * width_multiplier),
                         int(image_height * height_multiplier),
                     ),
                     resample=Image.Resampling.NEAREST,
-                )
-                image.save(path)
+                ).save(path)
 
     if path.is_file():
         scale_single(path)
@@ -82,25 +82,25 @@ def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: floa
         dir_action(path, scale_single)
 
 
-def to_png(path: StrOrBytesPath):
-    """Converts an image file into PNG.
+def to_png(path: StrOrBytesPath) -> None:
+    """Convert an image file into PNG.
 
     Args:
-        path (StrOrBytesPath): path of the layered image to convert or to a directory that contains them
+        path (StrOrBytesPath): path of the image to convert or to a directory that contains them
+
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
-    def to_png_single(path: Path):
-        if path.suffix == ".png":
+    def to_png_single(path: Path) -> None:
+        if path.suffix == '.png':
             return
-        filename = os.path.splitext(path)[0]
         if path.suffix in IMAGE_TYPES:
             with Image.open(path) as image:
-                image.save(f"{filename}.png")
-            os.remove(path)
+                image.save(f'{path.stem}.png')
+            path.unlink()
 
-    if os.path.isfile(path):
+    if path.is_file():
         to_png_single(path)
 
-    if os.path.isdir(path):
+    if path.is_dir():
         dir_action(path, to_png_single)
