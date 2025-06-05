@@ -1,8 +1,7 @@
 from os import PathLike
 from pathlib import Path
-from typing import Union
 
-StrOrBytesPath = Union[str, bytes, PathLike]
+StrOrBytesPath = str | bytes | PathLike
 """Value that can be used as a path, either as a string, bytes or PathLike object."""
 
 
