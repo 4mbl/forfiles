@@ -36,3 +36,21 @@ Home = "https://github.com/4mbl/forfiles"
 Repository = "https://github.com/4mbl/forfiles"
 Documentation = "https://github.com/4mbl/forfiles/blob/main/README.md"
 "Bug Tracker" = "https://github.com/4mbl/forfiles/issues"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D203", "D213", "ISC001", "COM812"]
+exclude = ["tests"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
