@@ -31,16 +31,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install . --force-reinstall
 
-      - name: Run tox
+      - name: Run tests
         run: |
           pip install tox tox-gh
           tox -p auto
 
       - name: Build package
         run: |
-          pip install build tomli-w
-          python -c "import tomllib; import tomli_w; reader=open('pyproject.toml', 'rb'); data=tomllib.load(reader); data['project']['version']='0.0.0'; writer=open('pyproject.toml', 'wb'); tomli_w.dump(data, writer)"
-          python -m build
+          # use tomlkit till all supported python versions support tomllib
+          if [[ "${{ matrix.python-version }}" == "3.10" ]]; then
+            pip install build tomlkit
+            python -c "import tomlkit; f=open('pyproject.toml', 'r'); data=tomlkit.parse(f.read()); f.close(); data['project']['version']='0.0.0'; f=open('pyproject.toml', 'w'); f.write(tomlkit.dumps(data)); f.close()"
+          else
+            pip install build tomli-w
+            python -c "import tomllib; import tomli_w; reader=open('pyproject.toml', 'rb'); data=tomllib.load(reader); data['project']['version']='0.0.0'; writer=open('pyproject.toml', 'wb'); tomli_w.dump(data, writer)"
+          fi
 
       - name: Install package
         run: |
