@@ -7,7 +7,7 @@ from forfiles._internal import StrOrBytesPath, process_path
 
 
 def filter_type(
-    directory: StrOrBytesPath, file_types: list, blacklist_mode: bool = False
+    directory: StrOrBytesPath, file_types: list, *, blacklist_mode: bool = False
 ):
     """
     Filters files in a directory based on their file type
