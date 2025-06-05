@@ -1,6 +1,6 @@
 import os
 from PIL import Image
-from .directory import dir_action
+from .fs import dir_action
 
 IMAGE_TYPES = (
     ".png",

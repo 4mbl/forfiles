@@ -13,20 +13,20 @@ pip install --upgrade forfiles
 ## Usage
 
 ```python
-from forfiles import file, image
+from forfiles import fs, image
 
 # file tools
-file.filter_type("C:/Users/example/Downloads/directory-to-filter/", [".png", ".txt", "md"])
-file.dir_create("C:/Users/example/Downloads/directory-to-create/")
-file.dir_delete("C:/Users/example/Downloads/directory-to-delete/")
+fs.filter_type("directory-to-filter/", [".png", ".txt", "md"])
+fs.dir_create("directory-to-create/")
+fs.dir_delete("directory-to-delete/")
 
 # image tools
-image.scale("C:/Users/example/Downloads/boat.png", 1, 1.5)
-image.resize("C:/Users/example/Downloads/car.jpg", 1000, 1000)
-image.to_png("C:/Users/example/Downloads/plane.jpg")
+image.scale("boat.png", 1, 1.5)
+image.resize("car.jpg", 1000, 1000)
+image.to_png("plane.jpg")
 
 # you can also operate whole directories
-dir_action("C:/Users/example/Downloads/cats/", image.scale, 2, 2)
-dir_action("C:/Users/example/Downloads/giraffes/", image.resize, 1000, 1000)
-dir_action("C:/Users/example/Downloads/tortoises/", image.to_png)
+fs.dir_action("cats/", image.scale, 2, 2)
+fs.dir_action("giraffes/", image.resize, 1000, 1000)
+fs.dir_action("tortoises/", image.to_png)
 ```
