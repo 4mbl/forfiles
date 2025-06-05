@@ -77,7 +77,7 @@ def dir_action(
         directory (StrOrBytesPath):
             The path of the directory to iterate through.
 
-        fn (Callable[..., None]):
+        fn (Callable):
             A callback function that will be called with each file as its argument.
 
         *args:
