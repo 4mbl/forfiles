@@ -4,7 +4,7 @@ import os
 from collections.abc import Callable
 from pathlib import Path
 from shutil import rmtree
-from typing import Concatenate, ParamSpec, TypeVar
+from typing import Concatenate, ParamSpec
 
 from forfiles._internal import StrOrBytesPath, process_path
 
@@ -63,7 +63,6 @@ def dir_delete(directory: StrOrBytesPath) -> None:
 
 
 P = ParamSpec('P')
-R = TypeVar('R')  # not required?
 
 
 def dir_action(
