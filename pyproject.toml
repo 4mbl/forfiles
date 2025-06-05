@@ -10,7 +10,7 @@ description = "Useful tools for files"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
-keywords = ["files", "fs", "images", "directories", "utility"]
+keywords = ["file", "fs", "filesystem", "image", "directory", "utility"]
 
 classifiers = [
     "Development Status :: 5 - Production/Stable",
