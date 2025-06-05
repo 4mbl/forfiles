@@ -1,9 +1,10 @@
 """Tools for the filesystem."""
 
 import os
+from collections.abc import Callable
 from pathlib import Path
 from shutil import rmtree
-from typing import Callable, Concatenate, ParamSpec, TypeVar
+from typing import Concatenate, ParamSpec, TypeVar
 
 from forfiles._internal import StrOrBytesPath, process_path
 
