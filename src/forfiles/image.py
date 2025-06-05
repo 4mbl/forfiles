@@ -1,13 +1,14 @@
 """Tools to manipulate images."""
 
 from pathlib import Path
+from typing import TypedDict
 
 from PIL import Image
 
 from ._internal import StrOrBytesPath, process_path
 from .fs import dir_action
 
-IMAGE_TYPES = (
+DEFAULT_IMAGE_TYPES = (
     '.png',
     '.jpg',
     '.gif',
@@ -20,13 +21,23 @@ IMAGE_TYPES = (
 )
 
 
-def resize(path: StrOrBytesPath, image_width: int, image_height: int) -> None:
+class ImageOptions(TypedDict):
+    """Options for image operations."""
+
+    image_types: list[str] | None
+    """File extensions containing the leading dot."""
+
+
+def resize(
+    path: StrOrBytesPath, image_width: int, image_height: int, options: ImageOptions | None = None
+) -> None:
     """Resize an image or all images in a directory.
 
     Args:
         path (StrOrBytesPath): path of the image to resize or to a directory that contains them
         image_width (int): width of the desired output image in pixels
         image_height (int): height of the desired output image in pixels
+        options (ImageOptions | None): options for resizing
 
     Returns:
         void
@@ -34,8 +45,12 @@ def resize(path: StrOrBytesPath, image_width: int, image_height: int) -> None:
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
+    image_types = (
+        options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
+    )
+
     def resize_single(path: Path) -> None:
-        if path.suffix in IMAGE_TYPES:
+        if path.suffix in (image_types):
             with Image.open(path) as image:
                 image.resize(
                     (image_width, image_height),
@@ -49,13 +64,19 @@ def resize(path: StrOrBytesPath, image_width: int, image_height: int) -> None:
         dir_action(path, resize_single)
 
 
-def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: float) -> None:
+def scale(
+    path: StrOrBytesPath,
+    width_multiplier: float,
+    height_multiplier: float,
+    options: ImageOptions | None = None,
+) -> None:
     """Scale an image or all images in a directory with the given multipliers.
 
     Args:
         path (StrOrBytesPath): path of the image to scale or to a directory that contains them
         width_multiplier (int): integer that will be used to multiply the width of the image
         height_multiplier (int): integer that will be used to multiply the width of the image
+        options (ImageOptions | None): options for scaling
 
     Returns:
         void
@@ -63,8 +84,12 @@ def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: floa
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
+    image_types = (
+        options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
+    )
+
     def scale_single(path: Path) -> None:
-        if path.suffix in IMAGE_TYPES:
+        if path.suffix in image_types:
             with Image.open(path) as image:
                 image_width, image_height = image.size
                 image.resize(
@@ -82,19 +107,27 @@ def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: floa
         dir_action(path, scale_single)
 
 
-def to_png(path: StrOrBytesPath) -> None:
+def to_png(
+    path: StrOrBytesPath,
+    options: ImageOptions | None = None,
+) -> None:
     """Convert an image file into PNG.
 
     Args:
         path (StrOrBytesPath): path of the image to convert or to a directory that contains them
+        options (ImageOptions | None): options for conversion
 
     """
     path = process_path(path) if not isinstance(path, Path) else path
 
+    image_types = (
+        options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
+    )
+
     def to_png_single(path: Path) -> None:
         if path.suffix == '.png':
             return
-        if path.suffix in IMAGE_TYPES:
+        if path.suffix in image_types:
             with Image.open(path) as image:
                 image.save(f'{path.stem}.png')
             path.unlink()
