@@ -47,20 +47,14 @@ jobs:
             python -c "import tomllib; import tomli_w; reader=open('pyproject.toml', 'rb'); data=tomllib.load(reader); data['project']['version']='0.0.0'; writer=open('pyproject.toml', 'wb'); tomli_w.dump(data, writer)"
           fi
           python -m build
+        shell: bash
 
-      - name: Set package version (Ubuntu only)
-        if: runner.os == 'Linux'
+      - name: Set package version
         run: |
           if [[ "${{ matrix.python-version }}" == "3.10" ]]; then
-            python -c "import tomlkit; f=open('pyproject.toml', 'r'); data=tomlkit.parse(f.read()); f.close(); data['project']['version']='0.0.0'; f=open('pyproject.toml', 'w'); f.write(tomlkit.dumps(data)); f.close()"
+          python -c "import tomlkit; f=open('pyproject.toml', 'r'); data=tomlkit.parse(f.read()); f.close(); data['project']['version']='0.0.0'; f=open('pyproject.toml', 'w'); f.write(tomlkit.dumps(data)); f.close()"
           fi
-
-      - name: Set package version (Windows only)
-        run: |
-        if: runner.os == 'Windows'
-          if ("${{ matrix.python-version }}" -eq "3.10") {
-          python -c "import tomlkit; $f = open('pyproject.toml', 'r'); $data = tomlkit.parse($f.read()); $f.close(); $data['project']['version'] = '0.0.0'; $f = open('pyproject.toml', 'w'); $f.write(tomlkit.dumps($data)); $f.close()"
-          }
+        shell: bash
 
       - name: Build package
         run: |
