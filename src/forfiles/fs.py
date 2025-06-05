@@ -1,74 +1,77 @@
+"""Tools for the filesystem."""
+
 import os
 from pathlib import Path
 from shutil import rmtree
-from typing import Callable
+from typing import Callable, Concatenate, ParamSpec, TypeVar
 
 from forfiles._internal import StrOrBytesPath, process_path
 
 
 def filter_type(
     directory: StrOrBytesPath, file_types: list, *, blacklist_mode: bool = False
-):
-    """
-    Filters files in a directory based on their file type
+) -> None:
+    """Filter files in a directory based on their file type.
 
     Args:
         directory (StrOrBytesPath): full path to the directory where the files will be filtered
-        desired_file_types (list): file type extensions that will be kept, for example: [".png", ".txt"]
-        blacklist_mode (bool): by default the listed file types are kept, if this is set to true, the listed file types will be removed and other remaining files will be kept
+        file_types (list): file type extensions that will be kept, for example: `[".png", ".txt"]`
+        blacklist_mode (bool): when true, listed types will be removed, otherwise they will be kept
 
     Returns:
         void
-    """
-    directory = (
-        process_path(directory) if not isinstance(directory, Path) else directory
-    )
 
-    for file_type in file_types:
-        if not file_type.startswith("."):
-            file_type = f".{file_type}"
+    """
+    directory = process_path(directory) if not isinstance(directory, Path) else directory
+    file_types = [
+        f'.{file_type}' if not file_type.startswith('.') else file_type for file_type in file_types
+    ]
 
     for subdir, _, files in os.walk(directory.as_posix()):
         for file in files:
-            if blacklist_mode and file.endswith(tuple(file_types)):
-                os.remove(f"{os.path.abspath(subdir)}/{file}")
-            elif not file.endswith(tuple(file_types)):
-                os.remove(f"{os.path.abspath(subdir)}/{file}")
+            if (blacklist_mode and file.endswith(tuple(file_types))) or not file.endswith(
+                tuple(file_types)
+            ):
+                file_path = Path(subdir) / file
+                if file_path.is_file():
+                    file_path.unlink()
 
 
-def dir_create(directory: StrOrBytesPath):
-    """Creates directory is it does not exist previously. Will create parent directories if they do not exist.
+def dir_create(directory: StrOrBytesPath) -> None:
+    """Create directory is it does not exist previously. Will create parents.
 
     Args:
         directory (StrOrBytesPath): path of the directory that will be created
+
     """
-    directory = (
-        process_path(directory) if not isinstance(directory, Path) else directory
-    )
+    directory = process_path(directory) if not isinstance(directory, Path) else directory
     if not directory.is_dir():
         directory.mkdir(parents=True, exist_ok=True)
 
 
-def dir_delete(directory: StrOrBytesPath):
-    """Deletes directory and its contents if it exists.
+def dir_delete(directory: StrOrBytesPath) -> None:
+    """Delete directory and its contents if it exists.
 
     Args:
         directory (StrOrBytesPath): path of the directory that will be deleted
+
     """
-    directory = (
-        process_path(directory) if not isinstance(directory, Path) else directory
-    )
+    directory = process_path(directory) if not isinstance(directory, Path) else directory
     if directory.is_dir():
         rmtree(directory)
 
 
+P = ParamSpec('P')
+R = TypeVar('R')  # not required?
+
+
 def dir_action(
     directory: StrOrBytesPath,
-    fn: Callable[..., None],
-    *args,
-    **kwargs,
+    fn: Callable[Concatenate[Path, P], None],
+    *args: P.args,
+    **kwargs: P.kwargs,
 ) -> None:
-    """Iterates through a directory and executes a function for each file in the directory.
+    """Iterate through a directory and executes a function for each file in the directory.
 
     Args:
         directory (StrOrBytesPath):
@@ -98,11 +101,10 @@ def dir_action(
 
         >>> dir_action('/path/to/directory', print_file_contents)
 
-        This will print the contents of each file in the directory '/path/to/directory', as well as its path.
+        The example prints the contents of each file in the specified directory.
+
     """
-    directory = (
-        process_path(directory) if not isinstance(directory, Path) else directory
-    )
-    for file_path in directory.rglob("*"):
+    directory = process_path(directory) if not isinstance(directory, Path) else directory
+    for file_path in directory.rglob('*'):
         if file_path.is_file():
             fn(file_path, *args, **kwargs)
