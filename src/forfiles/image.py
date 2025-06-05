@@ -69,8 +69,8 @@ def scale(
 
     Args:
         path (StrOrBytesPath): path of the image to scale or to a directory that contains them
-        width_multiplier (int): integer that will be used to multiply the width of the image
-        height_multiplier (int): integer that will be used to multiply the width of the image
+        width_multiplier (float): integer that will be used to multiply the width of the image
+        height_multiplier (float): integer that will be used to multiply the width of the image
         options (ImageOptions | None): options for scaling
 
     Returns:
