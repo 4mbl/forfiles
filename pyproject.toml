@@ -9,7 +9,7 @@ authors = [{ name = "4MBL" }]
 description = "Useful tools for files"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["file", "fs", "filesystem", "image", "directory", "utility"]
 
 classifiers = [
