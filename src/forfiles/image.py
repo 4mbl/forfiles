@@ -1,5 +1,8 @@
 import os
+from pathlib import Path
 from PIL import Image
+
+from forfiles._internal import StrOrBytesPath, process_path
 from .fs import dir_action
 
 IMAGE_TYPES = (
@@ -15,21 +18,22 @@ IMAGE_TYPES = (
 )
 
 
-def resize(path: str, image_width: int, image_height: int):
+def resize(path: StrOrBytesPath, image_width: int, image_height: int):
     """
     Resizes an image or all images in a directory
 
     Args:
-        path (string): path of the image to resize or to a directory that contains them
+        path (StrOrBytesPath): path of the image to resize or to a directory that contains them
         image_width (int): width of the desired output image in pixels
         image_height (int): height of the desired output image in pixels
 
     Returns:
         void
     """
+    path = process_path(path) if not isinstance(path, Path) else path
 
-    def resize_single(path):
-        if path.endswith(IMAGE_TYPES):
+    def resize_single(path: Path):
+        if path.suffix in IMAGE_TYPES:
             with Image.open(path) as image:
                 image = image.resize(
                     (image_width, image_height),
@@ -37,31 +41,31 @@ def resize(path: str, image_width: int, image_height: int):
                 )
                 image.save(path)
 
-    if os.path.isfile(path):
+    if path.is_file():
         resize_single(path)
 
-    if os.path.isdir(path):
+    if path.is_dir():
         dir_action(path, resize_single)
 
 
-def scale(path: str, width_multiplier: float, height_multiplier: float):
+def scale(path: StrOrBytesPath, width_multiplier: float, height_multiplier: float):
     """
     Scales an image or all images in a directory with the given multiplier(s)
 
     Args:
-        path (string): path of the image to scale or to a directory that contains them
+        path (StrOrBytesPath): path of the image to scale or to a directory that contains them
         width_multiplier (int): integer that will be used to multiply the width of the image
         height_multiplier (int): integer that will be used to multiply the width of the image
 
     Returns:
         void
     """
+    path = process_path(path) if not isinstance(path, Path) else path
 
-    def scale_single(path):
-        if path.endswith(IMAGE_TYPES):
+    def scale_single(path: Path):
+        if path.suffix in IMAGE_TYPES:
             with Image.open(path) as image:
                 image_width, image_height = image.size
-
                 image = image.resize(
                     (
                         int(image_width * width_multiplier),
@@ -71,27 +75,28 @@ def scale(path: str, width_multiplier: float, height_multiplier: float):
                 )
                 image.save(path)
 
-    if os.path.isfile(path):
+    if path.is_file():
         scale_single(path)
 
-    if os.path.isdir(path):
+    if path.is_dir():
         dir_action(path, scale_single)
 
 
-def to_png(path: str):
+def to_png(path: StrOrBytesPath):
     """Converts an image file into PNG.
 
     Args:
-        path (str): path of the layered image to convert or to a directory that contains them
+        path (StrOrBytesPath): path of the layered image to convert or to a directory that contains them
     """
+    path = process_path(path) if not isinstance(path, Path) else path
 
-    def to_png_single(path):
-        if path.endswith(".png"):
+    def to_png_single(path: Path):
+        if path.suffix == ".png":
             return
         filename = os.path.splitext(path)[0]
-        if path.endswith(IMAGE_TYPES):
-            image = Image.open(path)
-            image.save(f"{filename}.png")
+        if path.suffix in IMAGE_TYPES:
+            with Image.open(path) as image:
+                image.save(f"{filename}.png")
             os.remove(path)
 
     if os.path.isfile(path):

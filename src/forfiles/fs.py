@@ -1,26 +1,34 @@
 import os
+from pathlib import Path
 from shutil import rmtree
 from typing import Callable
 
+from forfiles._internal import StrOrBytesPath, process_path
 
-def filter_type(directory: str, file_types: list, blacklist_mode: bool = False):
+
+def filter_type(
+    directory: StrOrBytesPath, file_types: list, *, blacklist_mode: bool = False
+):
     """
     Filters files in a directory based on their file type
 
     Args:
-        directory (string): full path to the directory where the files will be filtered
+        directory (StrOrBytesPath): full path to the directory where the files will be filtered
         desired_file_types (list): file type extensions that will be kept, for example: [".png", ".txt"]
         blacklist_mode (bool): by default the listed file types are kept, if this is set to true, the listed file types will be removed and other remaining files will be kept
 
     Returns:
         void
     """
+    directory = (
+        process_path(directory) if not isinstance(directory, Path) else directory
+    )
 
     for file_type in file_types:
         if not file_type.startswith("."):
             file_type = f".{file_type}"
 
-    for subdir, _, files in os.walk(directory):
+    for subdir, _, files in os.walk(directory.as_posix()):
         for file in files:
             if blacklist_mode and file.endswith(tuple(file_types)):
                 os.remove(f"{os.path.abspath(subdir)}/{file}")
@@ -28,28 +36,34 @@ def filter_type(directory: str, file_types: list, blacklist_mode: bool = False):
                 os.remove(f"{os.path.abspath(subdir)}/{file}")
 
 
-def dir_create(dir_path: str):
-    """Creates directory is it does not exist previously
+def dir_create(directory: StrOrBytesPath):
+    """Creates directory is it does not exist previously. Will create parent directories if they do not exist.
 
     Args:
-        dir_path (str): path of the directory that will be created
+        directory (StrOrBytesPath): path of the directory that will be created
     """
-    if not os.path.isdir(dir_path):
-        os.mkdir(dir_path)
+    directory = (
+        process_path(directory) if not isinstance(directory, Path) else directory
+    )
+    if not directory.is_dir():
+        directory.mkdir(parents=True, exist_ok=True)
 
 
-def dir_delete(dir_path: str):
+def dir_delete(directory: StrOrBytesPath):
     """Deletes directory and its contents if it exists.
 
     Args:
-        dir_path (string): path of the directory that will be deleted
+        directory (StrOrBytesPath): path of the directory that will be deleted
     """
-    if os.path.isdir(dir_path):
-        rmtree(dir_path)
+    directory = (
+        process_path(directory) if not isinstance(directory, Path) else directory
+    )
+    if directory.is_dir():
+        rmtree(directory)
 
 
 def dir_action(
-    path: str,
+    directory: StrOrBytesPath,
     fn: Callable[..., None],
     *args,
     **kwargs,
@@ -57,7 +71,7 @@ def dir_action(
     """Iterates through a directory and executes a function for each file in the directory.
 
     Args:
-        path (str):
+        directory (StrOrBytesPath):
             The path of the directory to iterate through.
 
         fn (Callable[..., None]):
@@ -86,8 +100,9 @@ def dir_action(
 
         This will print the contents of each file in the directory '/path/to/directory', as well as its path.
     """
-
-    for root, _, files in os.walk(path):
-        for file_name in files:
-            file_path = os.path.join(root, file_name)
+    directory = (
+        process_path(directory) if not isinstance(directory, Path) else directory
+    )
+    for file_path in directory.rglob("*"):
+        if file_path.is_file():
             fn(file_path, *args, **kwargs)
