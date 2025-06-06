@@ -1,12 +1,11 @@
 """Tools for the filesystem."""
 
-import os
 from collections.abc import Callable, Generator
 from pathlib import Path
 from shutil import rmtree
 from typing import Concatenate, ParamSpec
 
-from forfiles._internal import StrOrBytesPath, process_path
+from ._internal import StrOrBytesPath, process_path
 
 
 def filter_type(
@@ -28,14 +27,14 @@ def filter_type(
         f'.{file_type}' if not file_type.startswith('.') else file_type for file_type in file_types
     ]
 
-    for subdir, _, files in os.walk(directory.as_posix()):
-        for file in files:
-            if (blacklist_mode and file.endswith(tuple(file_types))) or not file.endswith(
-                tuple(file_types)
-            ):
-                file_path = Path(subdir) / file
-                if file_path.is_file():
-                    file_path.unlink()
+    for file_path in iterate_files(directory):
+        if blacklist_mode and file_path.suffix not in file_types:
+            continue
+        if not blacklist_mode and file_path.suffix in file_types:
+            continue
+
+        if file_path.is_file():
+            file_path.unlink()
 
 
 def dir_create(directory: StrOrBytesPath) -> None:
