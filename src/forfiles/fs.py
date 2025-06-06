@@ -1,7 +1,7 @@
 """Tools for the filesystem."""
 
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Generator
 from pathlib import Path
 from shutil import rmtree
 from typing import Concatenate, ParamSpec
@@ -74,6 +74,8 @@ def process_files(
 ) -> None:
     """Iterate through a directory and execute a function for each file in the directory.
 
+    You can use `iterate_files` if you prefer to iterate through files with a generator.
+
     Args:
         directory (StrOrBytesPath):
             Path of the directory to iterate through.
@@ -101,3 +103,29 @@ def process_files(
     for file_path in directory.rglob('*'):
         if file_path.is_file():
             fn(file_path, *args, **kwargs)
+
+
+def iterate_files(directory: StrOrBytesPath) -> Generator[Path, None, None]:
+    """Iterate through a directory and yield the paths of each file.
+
+    You can use `process_files` if you prefer to process files with a callback function.
+
+    Args:
+        directory (StrOrBytesPath):
+            Path of the directory to iterate through.
+
+    Yields:
+        Path:
+            The path of each file in the directory.
+
+    Examples:
+        The following code demonstrates how to print the paths of all files:
+
+        >>> for file in iterate_files('/path/to/directory'):
+        >>>     print(file)
+
+    """
+    directory = process_path(directory) if not isinstance(directory, Path) else directory
+    for file_path in directory.rglob('*'):
+        if file_path.is_file():
+            yield file_path
