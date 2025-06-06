@@ -43,7 +43,7 @@ def resize(
             Options for resizing.
 
     """
-    path = process_path(path) if not isinstance(path, Path) else path
+    path = process_path(path)
 
     image_types = (
         options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
@@ -79,7 +79,7 @@ def scale(
             Options for scaling
 
     """
-    path = process_path(path) if not isinstance(path, Path) else path
+    path = process_path(path)
 
     image_types = (
         options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
@@ -103,7 +103,7 @@ def scale(
 def to_png(
     path: StrOrBytesPath,
     options: ImageOptions | None = None,
-) -> None:
+) -> Path | None:
     """Convert an image file into PNG.
 
     Args:
@@ -112,19 +112,25 @@ def to_png(
         options (ImageOptions | None):
             Options for conversion.
 
+    Returns:
+        Path | None: The path of the converted image, or None if conversion was not possible.
+
     """
-    path = process_path(path) if not isinstance(path, Path) else path
+    path = process_path(path)
 
     image_types = (
         options['image_types'] if options and options['image_types'] else DEFAULT_IMAGE_TYPES
     )
 
     if not path.is_file():
-        return
-
+        return None
+    if path.suffix not in image_types:
+        return None
     if path.suffix == '.png':
-        return
-    if path.suffix in image_types:
-        with Image.open(path) as image:
-            image.save(f'{path.stem}.png')
-        path.unlink()
+        return path
+
+    with Image.open(path) as image:
+        new_path = path.with_suffix('.png')
+        image.save(new_path, format='PNG')
+    path.unlink()
+    return new_path
