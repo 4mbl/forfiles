@@ -25,8 +25,14 @@ image.scale("boat.png", 1, 1.5)
 image.resize("car.jpg", 1000, 1000)
 image.to_png("plane.jpg")
 
-# you can also operate whole directories
-fs.dir_action("cats/", image.scale, 2, 2)
-fs.dir_action("giraffes/", image.resize, 1000, 1000)
-fs.dir_action("tortoises/", image.to_png)
+# you can also process all files in a directory with a callback function
+# arguments after the function are passed to the callback in addition to the file path
+fs.process_files("cats/", image.scale, 2, 2)
+fs.process_files("giraffes/", image.resize, 1000, 1000)
+fs.process_files("tortoises/", image.to_png)
+
+# you can also iterate using a generator syntax
+for file in fs.iterate_files('gorillas/'):
+    if file.suffix == '.py':
+        print(file.name)
 ```

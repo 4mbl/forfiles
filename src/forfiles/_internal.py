@@ -7,8 +7,8 @@ StrOrBytesPath = str | bytes | PathLike
 
 def process_path(path: StrOrBytesPath) -> Path:
     """Convert a path to a Path object."""
-    if isinstance(path, Path):
-        return path
     if isinstance(path, bytes):
         path = path.decode('utf-8')
-    return Path(path)
+    if not isinstance(path, Path):
+        path = Path(path)
+    return path.resolve()
