@@ -15,12 +15,12 @@ def filter_type(
     """Filter files in a directory based on their file type.
 
     Args:
-        directory (StrOrBytesPath): full path to the directory where the files will be filtered
-        file_types (list): file type extensions that will be kept, for example: `[".png", ".txt"]`
-        blacklist_mode (bool): when true, listed types will be removed, otherwise they will be kept
-
-    Returns:
-        void
+        directory (StrOrBytesPath):
+            Path to the directory to be filtered.
+        file_types (list):
+            File type extensions that will be kept, for example: `[".png", ".txt"]`
+        blacklist_mode (bool):
+            When true, listed types will be removed, otherwise they will be kept.
 
     """
     directory = process_path(directory) if not isinstance(directory, Path) else directory
@@ -42,7 +42,8 @@ def dir_create(directory: StrOrBytesPath) -> None:
     """Create directory is it does not exist previously. Will create parents.
 
     Args:
-        directory (StrOrBytesPath): path of the directory that will be created
+        directory (StrOrBytesPath):
+            Path of the directory that will be created.
 
     """
     directory = process_path(directory) if not isinstance(directory, Path) else directory
@@ -71,14 +72,14 @@ def dir_action(
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:
-    """Iterate through a directory and executes a function for each file in the directory.
+    """Iterate through a directory and execute a function for each file in the directory.
 
     Args:
         directory (StrOrBytesPath):
-            The path of the directory to iterate through.
+            Path of the directory to iterate through.
 
         fn (Callable):
-            A callback function that will be called with each file as its argument.
+            Callback function that will be called with each file as its argument.
 
         *args:
             Optional positional arguments that will be passed to the callback function.
@@ -86,14 +87,8 @@ def dir_action(
         **kwargs:
             Optional keyword arguments that will be passed to the callback function.
 
-    Returns:
-        None. This function does not return any value.
-
-    Raises:
-        OSError: If the directory specified by 'path' does not exist or cannot be accessed.
-
     Examples:
-        The following code demonstrates how to use dir_action to print the contents of a directory:
+        The following code demonstrates how to print the contents of a directory:
 
         >>> def print_file_contents(file_path):
         ...     with open(file_path, 'r') as file:
