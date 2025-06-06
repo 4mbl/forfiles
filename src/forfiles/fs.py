@@ -66,7 +66,7 @@ def dir_delete(directory: StrOrBytesPath) -> None:
 P = ParamSpec('P')
 
 
-def dir_action(
+def process_files(
     directory: StrOrBytesPath,
     fn: Callable[Concatenate[Path, P], None],
     *args: P.args,
@@ -90,13 +90,11 @@ def dir_action(
     Examples:
         The following code demonstrates how to print the contents of a directory:
 
-        >>> def print_file_contents(file_path):
+        >>> def print_contents(file_path):
         ...     with open(file_path, 'r') as file:
         ...         print(file.read())
 
-        >>> dir_action('/path/to/directory', print_file_contents)
-
-        The example prints the contents of each file in the specified directory.
+        >>> process_files('/path/to/directory', print_contents)
 
     """
     directory = process_path(directory) if not isinstance(directory, Path) else directory
