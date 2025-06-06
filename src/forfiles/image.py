@@ -30,16 +30,17 @@ class ImageOptions(TypedDict):
 def resize(
     path: StrOrBytesPath, image_width: int, image_height: int, options: ImageOptions | None = None
 ) -> None:
-    """Resize an image or all images in a directory.
+    """Resize an image.
 
     Args:
-        path (StrOrBytesPath): path of the image to resize
-        image_width (int): width of the desired output image in pixels
-        image_height (int): height of the desired output image in pixels
-        options (ImageOptions | None): options for resizing
-
-    Returns:
-        void
+        path (StrOrBytesPath):
+            Path of the image to resize.
+        image_width (int):
+            Width of the desired output image in pixels.
+        image_height (int):
+            Height of the desired output image in pixels
+        options (ImageOptions | None):
+            Options for resizing.
 
     """
     path = process_path(path) if not isinstance(path, Path) else path
@@ -65,16 +66,17 @@ def scale(
     height_multiplier: float,
     options: ImageOptions | None = None,
 ) -> None:
-    """Scale an image or all images in a directory with the given multipliers.
+    """Scale an image with the given multipliers.
 
     Args:
-        path (StrOrBytesPath): path of the image to scale or to a directory that contains them
-        width_multiplier (float): integer that will be used to multiply the width of the image
-        height_multiplier (float): integer that will be used to multiply the width of the image
-        options (ImageOptions | None): options for scaling
-
-    Returns:
-        void
+        path (StrOrBytesPath):
+            Path of the image to scale.
+        width_multiplier (float):
+            Integer that will be used to multiply the width of the image.
+        height_multiplier (float):
+            Integer that will be used to multiply the width of the image.
+        options (ImageOptions | None):
+            Options for scaling
 
     """
     path = process_path(path) if not isinstance(path, Path) else path
@@ -105,8 +107,10 @@ def to_png(
     """Convert an image file into PNG.
 
     Args:
-        path (StrOrBytesPath): path of the image to convert or to a directory that contains them
-        options (ImageOptions | None): options for conversion
+        path (StrOrBytesPath):
+            Path of the image to convert.
+        options (ImageOptions | None):
+            Options for conversion.
 
     """
     path = process_path(path) if not isinstance(path, Path) else path
