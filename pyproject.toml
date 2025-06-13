@@ -48,8 +48,45 @@ exclude = ["tests"]
 quote-style = "single"
 indent-style = "space"
 
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
-[tool.ruff.lint.flake8-quotes]
-inline-quotes = "single"
+[tool.tox]
+requires = ["tox>=4.21"]
+env_list = ["3.13", "3.12", "3.11", "3.10", "format", "lint", "typecheck"]
+isolated_build = true
+skip_missing_interpreters = true
+
+[tool.tox.gh.python]
+"3.12" = ["3.12", "format", "lint", "typecheck"]
+"3.13" = ["3.13", "format", "lint", "typecheck"]
+"3.11" = ["3.11", "format", "lint", "typecheck"]
+"3.10" = ["3.10", "format", "lint", "typecheck"]
+
+[tool.tox.env_run_base]
+deps = ["pytest"]
+commands = [["pytest", "--basetemp={envtmpdir}"]]
+setenv = { PYTHONPATH = "{toxinidir}" }
+
+[tool.tox.env.format]
+deps = ["ruff"]
+commands = [["ruff", "format", ".", "--config=pyproject.toml", "--check"]]
+
+[tool.tox.env.lint]
+deps = ["ruff"]
+commands = [
+    [
+        "ruff",
+        "check",
+        ".",
+        "--config=pyproject.toml",
+        "--extend-exclude=tests",
+    ],
+]
+
+[tool.tox.env.typecheck]
+deps = ["mypy"]
+commands = [["mypy", "src/"]]
