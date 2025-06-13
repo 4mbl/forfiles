@@ -68,7 +68,7 @@ skip_missing_interpreters = true
 
 [tool.tox.env_run_base]
 deps = ["-r requirements-dev.txt"]
-commands = [["pytest", "--basetemp={envtmpdir}"]]
+commands = [["pytest", "{posargs:tests}", "--basetemp={envtmpdir}"]]
 setenv = { PYTHONPATH = "{toxinidir}" }
 
 [tool.tox.env.format]
