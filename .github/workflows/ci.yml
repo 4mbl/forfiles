@@ -32,10 +32,10 @@ jobs:
 
       - name: Run tests
         run: |
-          pip install tox tox-gh
+          pip install -r requirements-dev.txt
           tox -p auto
 
-      - name: Build package
+      - name: Set version to 0.0.0
         run: |
           # use tomlkit till all supported python versions support tomllib
           if [[ "${{ matrix.python-version }}" == "3.10" ]]; then

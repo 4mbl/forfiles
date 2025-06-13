@@ -67,16 +67,16 @@ skip_missing_interpreters = true
 "3.10" = ["3.10", "format", "lint", "typecheck"]
 
 [tool.tox.env_run_base]
-deps = ["pytest"]
+deps = ["-r requirements-dev.txt"]
 commands = [["pytest", "--basetemp={envtmpdir}"]]
 setenv = { PYTHONPATH = "{toxinidir}" }
 
 [tool.tox.env.format]
-deps = ["ruff"]
+deps = ["-r requirements-dev.txt"]
 commands = [["ruff", "format", ".", "--config=pyproject.toml", "--check"]]
 
 [tool.tox.env.lint]
-deps = ["ruff"]
+deps = ["-r requirements-dev.txt"]
 commands = [
     [
         "ruff",
@@ -88,5 +88,5 @@ commands = [
 ]
 
 [tool.tox.env.typecheck]
-deps = ["mypy"]
+deps = ["-r requirements-dev.txt"]
 commands = [["mypy", "src/"]]
