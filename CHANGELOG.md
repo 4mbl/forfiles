@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 * BREAKING: Rename `dir_action` to `process_files`.
 
 * Allow path-like objects to be passed to path parameters in addition to strings.
+* Allow other Sequence types to be passed in addition to lists to some functions.
 
 ### Fixed
 

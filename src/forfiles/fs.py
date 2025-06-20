@@ -1,6 +1,6 @@
 """Tools for the filesystem."""
 
-from collections.abc import Callable, Generator
+from collections.abc import Callable, Generator, Sequence
 from pathlib import Path
 from shutil import rmtree
 from typing import Concatenate, ParamSpec
@@ -9,15 +9,15 @@ from ._internal import StrOrBytesPath, process_path
 
 
 def filter_type(
-    directory: StrOrBytesPath, file_types: list, *, blacklist_mode: bool = False
+    directory: StrOrBytesPath, file_types: Sequence[str], *, blacklist_mode: bool = False
 ) -> None:
     """Filter files in a directory based on their file type.
 
     Args:
         directory (StrOrBytesPath):
             Path to the directory to be filtered.
-        file_types (list):
-            File type extensions that will be kept, for example: `[".png", ".txt"]`
+        file_types (Sequence[str]):
+            File type extensions that will be kept, for example: `[".png", ".txt"]`.
         blacklist_mode (bool):
             When true, listed types will be removed, otherwise they will be kept.
 
