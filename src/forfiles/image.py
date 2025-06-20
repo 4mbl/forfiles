@@ -1,5 +1,6 @@
 """Tools to manipulate images."""
 
+from collections.abc import Sequence
 from pathlib import Path
 from typing import TypedDict
 
@@ -23,7 +24,7 @@ DEFAULT_IMAGE_TYPES = (
 class ImageOptions(TypedDict):
     """Options for image operations."""
 
-    image_types: list[str] | None
+    image_types: Sequence[str] | None
     """File extensions containing the leading dot."""
 
 
