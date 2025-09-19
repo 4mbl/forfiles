@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "forfiles"
 version = "5.0.0"
 authors = [{ name = "4MBL" }]
-description = "Useful tools for files"
+description = "Utilities for files and images."
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
