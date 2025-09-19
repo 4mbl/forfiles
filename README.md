@@ -1,6 +1,6 @@
 # forfiles
 
-forfiles has useful tools for files and images.
+Utilities for files and images.
 
 ## Installation
 
