@@ -29,7 +29,19 @@ classifiers = [
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dependencies = ["pillow>=11.0.0,<12.0.0"]
+dependencies = ["pillow~=11.0"]
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    { include-group = "type" },
+    { include-group = "format" },
+    { include-group = "tox" },
+]
+test = ["pytest~=9.0"]
+type = ["mypy~=1.18"]
+format = ["ruff~=0.12"]
+lint = ["ruff~=0.12"]
+tox = ["tox~=4.28", "tox-gh~=1.5", "tox-uv~=1.29"]
 [project.urls]
 Home = "https://github.com/4mbl/forfiles"
 Repository = "https://github.com/4mbl/forfiles"
@@ -67,16 +79,16 @@ skip_missing_interpreters = true
 "3.10" = ["3.10", "format", "lint", "typecheck"]
 
 [tool.tox.env_run_base]
-deps = ["-r requirements-dev.txt"]
+dependency_groups = ["test"]
 commands = [["pytest", "{posargs:tests}", "--basetemp={envtmpdir}"]]
 setenv = { PYTHONPATH = "{toxinidir}" }
 
 [tool.tox.env.format]
-deps = ["-r requirements-dev.txt"]
+dependency_groups = ["format"]
 commands = [["ruff", "format", ".", "--config=pyproject.toml", "--check"]]
 
 [tool.tox.env.lint]
-deps = ["-r requirements-dev.txt"]
+dependency_groups = ["lint"]
 commands = [
     [
         "ruff",
@@ -88,5 +100,8 @@ commands = [
 ]
 
 [tool.tox.env.typecheck]
-deps = ["-r requirements-dev.txt"]
+dependency_groups = ["type"]
 commands = [["mypy", "src/"]]
+
+[tool.uv]
+required-version = ">=0.9.0"

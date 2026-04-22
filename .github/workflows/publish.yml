@@ -13,26 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Set up Python
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
-        with:
-          python-version: ${{ env.LATEST_PYTHON_VERSION }}
 
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install build
+      - name: Install uv with Python ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Build package
         run: |
-          python3 -m pip install build
           rm -rf dist
-          python3 -m build
-      - name: Publish package to PyPI
+          uv build src/
+
+      - name: Publish to PyPI
         run: |
-          python3 -m pip install twine
-          python3 -m twine upload -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
-      - name: Attach binaries to release
+          uv publish -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
+
+      - name: Create GitHub release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           files: dist/*
