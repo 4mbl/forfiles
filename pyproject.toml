@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "forfiles"
-version = "5.0.0"
+version = "6.0.0"
 authors = [{ name = "4MBL" }]
 description = "Utilities for files and images."
 readme = "README.md"
@@ -23,13 +23,14 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development",
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dependencies = ["pillow>=11.0.0,<12.1.0"]
+dependencies = ["pillow>=12.0.0,<12.2.0"]
 [project.urls]
 Home = "https://github.com/4mbl/forfiles"
 Repository = "https://github.com/4mbl/forfiles"
@@ -56,13 +57,23 @@ pythonpath = ["src"]
 
 [tool.tox]
 requires = ["tox>=4.21"]
-env_list = ["3.13", "3.12", "3.11", "3.10", "format", "lint", "typecheck"]
+env_list = [
+    "3.14",
+    "3.13",
+    "3.12",
+    "3.11",
+    "3.10",
+    "format",
+    "lint",
+    "typecheck",
+]
 isolated_build = true
 skip_missing_interpreters = true
 
 [tool.tox.gh.python]
-"3.12" = ["3.12", "format", "lint", "typecheck"]
+"3.14" = ["3.14", "format", "lint", "typecheck"]
 "3.13" = ["3.13", "format", "lint", "typecheck"]
+"3.12" = ["3.12", "format", "lint", "typecheck"]
 "3.11" = ["3.11", "format", "lint", "typecheck"]
 "3.10" = ["3.10", "format", "lint", "typecheck"]
 
