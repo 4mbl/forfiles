@@ -16,26 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+      - name: Install uv with Python ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: ${{ env.LATEST_PYTHON_VERSION }}
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install build
+          python-version: ${{ matrix.python-version }}
 
       - name: Build package
         run: |
-          python3 -m pip install build
           rm -rf dist
-          python3 -m build
+          uv build src/
 
-      - name: Publish package to PyPI
+      - name: Publish to PyPI
         run: |
-          python3 -m pip install twine
-          python3 -m twine upload -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
+          uv publish -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
 
       - name: Attach distributions to release
         env:
