@@ -30,7 +30,7 @@ classifiers = [
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dependencies = ["pillow>=12.0.0,<12.2.0"]
+dependencies = ["pillow>=12.0.0,<12.3.0"]
 [project.urls]
 Home = "https://github.com/4mbl/forfiles"
 Repository = "https://github.com/4mbl/forfiles"
