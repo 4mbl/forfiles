@@ -11,41 +11,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        # windows is not tested due to flakyness and slow runners
-        os: [ubuntu-latest]
-        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Set up uv and Python
-        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Sync dependencies
-        run: uv sync --locked
-
-      - name: Run tests
-        run: uv run --locked pytest tests
-
-      - name: Check formatting
-        run: uv run --locked ruff format --check .
-
-      - name: Lint
-        run: uv run --locked ruff check . --extend-exclude=tests
-
-      - name: Check types
-        run: uv run --locked mypy src/
-
-      - name: Build package
-        run: uv build
-
-      - name: Verify built wheel
-        shell: bash
-        run: |
-          uv pip install --python .venv --no-deps --reinstall dist/*.whl
-          uv run --no-sync python -I -c "from forfiles import fs, image"
+    uses: 4mbl/actions/.github/workflows/ci-python-uv.yml@5d9a15ed68d13ae6a628351c7cec2f9eb01318e8 # ci-python-uv/v26.11.0
+    with:
+      python-versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
+      wheel-imports: forfiles.fs forfiles.image
