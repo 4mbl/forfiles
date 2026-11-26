@@ -4,13 +4,11 @@ Utilities for files and images.
 
 ## Installation
 
-Add forfiles to a uv project.
-
 ```bash
 uv add forfiles
+# or
+pip install --upgrade forfiles
 ```
-
-You can also install forfiles with `pip install --upgrade forfiles`.
 
 ## Development
 
