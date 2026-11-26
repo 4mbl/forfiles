@@ -4,10 +4,25 @@ Utilities for files and images.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install forfiles.
+Add forfiles to a uv project.
 
 ```bash
-pip install --upgrade forfiles
+uv add forfiles
+```
+
+You can also install forfiles with `pip install --upgrade forfiles`.
+
+## Development
+
+Use uv 0.9.0 or newer to install the locked dependencies and run the project checks.
+
+```bash
+uv sync --locked
+uv run --locked pytest tests
+uv run --locked ruff format --check .
+uv run --locked ruff check . --extend-exclude=tests
+uv run --locked mypy src/
+uv build
 ```
 
 ## Usage
