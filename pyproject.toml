@@ -31,6 +31,10 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = ["pillow>=12.0.0,<12.4.0"]
+
+[dependency-groups]
+dev = ["pytest==9.2.0", "mypy===2.4.1", "ruff==0.17.3"]
+
 [project.urls]
 Home = "https://github.com/4mbl/forfiles"
 Repository = "https://github.com/4mbl/forfiles"
@@ -55,49 +59,5 @@ inline-quotes = "single"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
-[tool.tox]
-requires = ["tox>=4.21"]
-env_list = [
-    "3.14",
-    "3.13",
-    "3.12",
-    "3.11",
-    "3.10",
-    "format",
-    "lint",
-    "typecheck",
-]
-isolated_build = true
-skip_missing_interpreters = true
-
-[tool.tox.gh.python]
-"3.14" = ["3.14", "format", "lint", "typecheck"]
-"3.13" = ["3.13", "format", "lint", "typecheck"]
-"3.12" = ["3.12", "format", "lint", "typecheck"]
-"3.11" = ["3.11", "format", "lint", "typecheck"]
-"3.10" = ["3.10", "format", "lint", "typecheck"]
-
-[tool.tox.env_run_base]
-deps = ["-r requirements-dev.txt"]
-commands = [["pytest", "{posargs:tests}", "--basetemp={envtmpdir}"]]
-setenv = { PYTHONPATH = "{toxinidir}" }
-
-[tool.tox.env.format]
-deps = ["-r requirements-dev.txt"]
-commands = [["ruff", "format", ".", "--config=pyproject.toml", "--check"]]
-
-[tool.tox.env.lint]
-deps = ["-r requirements-dev.txt"]
-commands = [
-    [
-        "ruff",
-        "check",
-        ".",
-        "--config=pyproject.toml",
-        "--extend-exclude=tests",
-    ],
-]
-
-[tool.tox.env.typecheck]
-deps = ["-r requirements-dev.txt"]
-commands = [["mypy", "src/"]]
+[tool.uv]
+required-version = ">=0.13.0"

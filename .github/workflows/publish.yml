@@ -5,7 +5,7 @@ on:
     types: [created]
 
 env:
-  LATEST_PYTHON_VERSION: 3.14
+  LATEST_PYTHON_VERSION: '3.14'
 
 jobs:
   publish:
@@ -16,26 +16,18 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
         with:
           python-version: ${{ env.LATEST_PYTHON_VERSION }}
 
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install build
-
       - name: Build package
-        run: |
-          python3 -m pip install build
-          rm -rf dist
-          python3 -m build
+        run: uv build
 
-      - name: Publish package to PyPI
-        run: |
-          python3 -m pip install twine
-          python3 -m twine upload -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
+      - name: Publish to PyPI
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: uv publish
 
       - name: Attach distributions to release
         env:

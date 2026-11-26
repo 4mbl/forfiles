@@ -4,10 +4,21 @@ Utilities for files and images.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install forfiles.
+```bash
+uv add forfiles
+# or
+pip install --upgrade forfiles
+```
+
+## Development
 
 ```bash
-pip install --upgrade forfiles
+uv sync --locked
+uv run --locked pytest tests
+uv run --locked ruff format --check .
+uv run --locked ruff check . --extend-exclude=tests
+uv run --locked mypy src/
+uv build
 ```
 
 ## Usage
