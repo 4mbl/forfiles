@@ -12,8 +12,6 @@ pip install --upgrade forfiles
 
 ## Development
 
-Use uv 0.9.0 or newer to install the locked dependencies and run the project checks.
-
 ```bash
 uv sync --locked
 uv run --locked pytest tests
